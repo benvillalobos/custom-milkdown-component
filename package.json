@@ -13,6 +13,7 @@
     "@prosemirror-adapter/react": "^0.4.0",
     "prosemirror-example-setup": "^1.2.3",
     "prosemirror-schema-basic": "^1.2.3",
+    "prosemirror-schema-list": "^1.5.1",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.38.1",
     "react": "^19.0.0",
