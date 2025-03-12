@@ -1,13 +1,16 @@
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
-import { Paragraph } from './components/Paragraph'
 import './App.css'
+import { MilkdownProvider } from '@milkdown/react'
+import { MilkdownEditor } from './components/Editor'
 
 function App() {
 
   return (
-    <ProsemirrorAdapterProvider>
-      <Paragraph />
-    </ProsemirrorAdapterProvider>
+    <MilkdownProvider>
+      <ProsemirrorAdapterProvider>
+        <MilkdownEditor />
+      </ProsemirrorAdapterProvider>
+    </MilkdownProvider>
   )
 }
 

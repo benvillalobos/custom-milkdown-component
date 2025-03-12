@@ -1,32 +1,51 @@
 import { useNodeViewFactory } from "@prosemirror-adapter/react"
-import { EditorState } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
-import { useCallback } from "react";
-import { Paragraph } from "./Paragraph";
-import { schema } from "prosemirror-schema-basic";
+import { Milkdown, useEditor } from "@milkdown/react";
+import { defaultValueCtx, Editor, rootCtx } from "@milkdown/kit/core";
+import { codeBlockSchema, commonmark } from "@milkdown/kit/preset/commonmark";
+import { $view } from "@milkdown/kit/utils";
+import { nord } from "@milkdown/theme-nord";
+import { history } from "@milkdown/kit/plugin/history";
+import { CodeBlock } from "./CodeBlock";
 
-export const Editor = () => {
+const markdown =
+  `# Milkdown Component Code Block
+
+\`\`\`ts
+import { Editor } from '@milkdown/kit/core';
+import { commonmark } from '@milkdown/kit/preset/commonmark';
+
+import { nord } from '@milkdown/theme-nord';
+import '@milkdown/theme-nord/style.css';
+
+Editor
+  .make()
+  .config(nord)
+  .use(commonmark)
+  .create();
+\`\`\`
+
+This is a demo for using [Milkdown](https://milkdown.dev) code block component`
+
+
+
+export const MilkdownEditor: React.FC = () => {
     const nodeViewFactory = useNodeViewFactory();
-    const state = EditorState.create({
-        schema
-    })
 
-    const editorRef = useCallback((element: HTMLDivElement) => {
-        if (!element || element.firstChild)
-            return;
+    useEditor((root) => {
+      return Editor
+        .make()
+        .config(ctx => {
+          ctx.set(rootCtx, root);
+          ctx.set(defaultValueCtx, markdown);
+        })
+        .config(nord)
+        .use(commonmark)
+        .use(history)
+        // This tells milkdown to use the CodeBlock component as the view when a codeBlock node is used.
+        .use($view(codeBlockSchema.node, () => nodeViewFactory({
+          component: CodeBlock,
+        })))
+    }, []);
 
-        new EditorView(element, {
-            state,
-            nodeViews: {
-                paragraph: nodeViewFactory({
-                    component: Paragraph,
-                    as: 'div',
-                    contentAs: 'p'
-                })
-            }
-        });
-
-    },[nodeViewFactory, state]);
-
-    return <div className="editor" ref={editorRef}/>
+    return <Milkdown />
 }
