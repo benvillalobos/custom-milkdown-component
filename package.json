@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@milkdown/kit": "^7.6.3",
+    "@milkdown/react": "^7.6.3",
     "@prosemirror-adapter/react": "^0.4.0",
     "prosemirror-example-setup": "^1.2.3",
     "prosemirror-schema-basic": "^1.2.3",
