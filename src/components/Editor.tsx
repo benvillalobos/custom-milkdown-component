@@ -42,6 +42,7 @@ export const MilkdownEditor: React.FC = () => {
         .use(commonmark)
         .use(history)
         // This tells milkdown to use the CodeBlock component as the view when a codeBlock node is used.
+        // Note: If you comment out this .use, the code editor will appear slightly more like a code editor
         .use($view(codeBlockSchema.node, () => nodeViewFactory({
           component: CodeBlock,
         })))
